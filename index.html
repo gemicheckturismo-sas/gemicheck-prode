@@ -2,208 +2,293 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>GemiCheck Prode · Mundial 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--navy:#0a0e1a;--navy2:#0e1426;--card:#121a30;--card2:#16203a;--line:#243152;--gold:#d4b483;--gold-d:#a8895b;--mint:#4ec9a8;--mint-d:#2f9b7e;--cream:#f4eee4;--ink:#eef1f7;--muted:#8b93ad;--sky:#7ba5c8}
+:root{
+  --navy:#0a0e1a; --navy2:#0d1222; --card:#111827; --card2:#151e30;
+  --line:#1e2d45; --gold:#d4b483; --gold-d:#a8895b; --mint:#4ec9a8;
+  --mint-d:#2f9b7e; --cream:#f4eee4; --ink:#eef2f8; --muted:#8b96b0; --sky:#7ba5c8;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--navy);color:var(--ink);font-family:"Hanken Grotesk",sans-serif;-webkit-font-smoothing:antialiased}
-body{min-height:100vh;background:radial-gradient(1100px 540px at 85% -8%,rgba(212,180,131,.10),transparent 60%),radial-gradient(900px 480px at -8% 105%,rgba(78,201,168,.08),transparent 55%),var(--navy)}
-.wrap{max-width:880px;margin:0 auto;padding:0 16px}
+body{min-height:100vh;background:
+  radial-gradient(900px 500px at 90% -5%,rgba(212,180,131,.10),transparent 55%),
+  radial-gradient(700px 400px at -5% 100%,rgba(78,201,168,.07),transparent 55%),
+  var(--navy)}
 a{color:inherit;text-decoration:none}
-.cfgflag{position:fixed;top:0;left:0;right:0;z-index:99;text-align:center;font-size:11.5px;font-weight:800;letter-spacing:.03em;padding:5px 10px}
-.cfgflag.demo{background:linear-gradient(90deg,#a8895b,var(--gold));color:#1a1206}
-.cfgflag.live{background:linear-gradient(90deg,var(--mint-d),var(--mint));color:#04130d}
-.flag{position:relative;width:28px;height:28px;border-radius:50%;overflow:hidden;flex:0 0 auto;display:inline-grid;place-items:center;background:#2a3550;color:#fff;font-size:8.5px;font-weight:800;box-shadow:0 0 0 2px rgba(10,14,26,.10)}
-.flag img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.flag.sm{width:22px;height:22px;font-size:7.5px}
-#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px 16px 40px}
-.lcard{width:100%;max-width:440px;animation:rise .5s ease}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.brand{display:flex;align-items:center;gap:11px;justify-content:center;margin-bottom:6px}
-.logo{position:relative;width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:grid;place-items:center;font-family:"Bricolage Grotesque";font-weight:800;color:var(--navy);font-size:21px;box-shadow:0 6px 20px rgba(212,180,131,.25);overflow:hidden}
-.logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border-radius:inherit;padding:3px;background:linear-gradient(135deg,var(--gold),var(--gold-d))}
-.brand .bn{font-family:"Bricolage Grotesque";font-weight:800;font-size:21px;letter-spacing:-.01em}
-.brand .bn span{color:var(--gold)}
-.hero{text-align:center;margin:14px 0 22px}
-.hero .kick{font-size:11.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--mint);font-weight:800}
-.hero h1{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(30px,7vw,46px);line-height:1.02;margin:8px 0;letter-spacing:-.02em}
-.hero h1 em{font-style:normal;color:var(--gold)}
-.hero p{color:var(--muted);font-size:14.5px;line-height:1.5;max-width:360px;margin:0 auto}
-.formcard{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 24px 60px rgba(0,0,0,.4)}
-.formcard h2{font-family:"Bricolage Grotesque";font-weight:700;font-size:18px;margin-bottom:3px}
-.formcard .sub{color:var(--muted);font-size:13px;margin-bottom:16px}
-.field{margin-bottom:13px}
-.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);font-weight:800;margin-bottom:6px}
-.field input{width:100%;background:var(--navy);border:1.5px solid var(--line);color:var(--ink);padding:13px 14px;border-radius:12px;font-family:inherit;font-size:15px;font-weight:600}
-.field input:focus{outline:none;border-color:var(--gold)}
+
+/* ── barra modo ── */
+.modebar{position:fixed;top:0;left:0;right:0;z-index:99;text-align:center;font-size:11px;font-weight:800;letter-spacing:.06em;padding:4px 12px;text-transform:uppercase}
+.modebar.demo{background:rgba(168,137,91,.15);border-bottom:1px solid rgba(212,180,131,.20);color:var(--gold)}
+.modebar.live{background:rgba(47,155,126,.15);border-bottom:1px solid rgba(78,201,168,.20);color:var(--mint)}
+
+/* ── login ── */
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:52px 16px 36px;position:relative;overflow:hidden}
+#login::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 600px at 50% 40%,rgba(212,180,131,.07),transparent 60%);pointer-events:none}
+.lcard{width:100%;max-width:420px;position:relative;animation:rise .5s ease}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.lbrand{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:20px}
+.llogo{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:grid;place-items:center;box-shadow:0 12px 36px rgba(212,180,131,.25);overflow:hidden;position:relative}
+.llogo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:6px}
+.llogo span{font-family:"Bricolage Grotesque";font-weight:800;font-size:30px;color:var(--navy)}
+.lbrand h1{font-family:"Bricolage Grotesque";font-weight:800;font-size:28px;letter-spacing:-.02em;text-align:center}
+.lbrand h1 em{font-style:normal;color:var(--gold)}
+.lbrand .tagline{color:var(--muted);font-size:14px;text-align:center;line-height:1.5;max-width:320px}
+.lbrand .tagline b{color:var(--ink)}
+.formcard{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 28px 64px rgba(0,0,0,.45)}
+.formcard h2{font-family:"Bricolage Grotesque";font-weight:700;font-size:20px;margin-bottom:2px}
+.formcard .sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:800;margin-bottom:6px}
+.field input{width:100%;background:var(--navy2);border:1.5px solid var(--line);color:var(--ink);padding:13px 14px;border-radius:12px;font-family:inherit;font-size:15px;font-weight:600;transition:.15s}
+.field input:focus{outline:none;border-color:var(--gold);background:rgba(212,180,131,.04)}
 .field.err input{border-color:#e57373}
-.errmsg{color:#e57373;font-size:12px;margin-top:5px;display:none}.field.err .errmsg{display:block}
-.cta{width:100%;border:none;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);font-family:"Bricolage Grotesque";font-weight:800;font-size:16px;padding:15px;border-radius:13px;margin-top:6px;transition:.15s}
-.cta:hover{transform:translateY(-1px);box-shadow:0 10px 28px rgba(212,180,131,.3)}
-.cta:disabled{opacity:.6;cursor:wait}
-.consent{font-size:11px;color:var(--muted);text-align:center;margin-top:11px;line-height:1.5}
-.prize{margin-top:18px;background:linear-gradient(135deg,rgba(78,201,168,.12),rgba(212,180,131,.08));border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;gap:12px;align-items:center}
-.prize .ic{font-size:26px}.prize b{color:var(--gold)}.prize small{color:var(--muted);font-size:12px;display:block;margin-top:2px}
-.lfoot{text-align:center;color:#566;font-size:11px;margin-top:20px}
+.errmsg{color:#e57373;font-size:11.5px;margin-top:5px;display:none}.field.err .errmsg{display:block}
+.cta{width:100%;border:none;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);font-family:"Bricolage Grotesque";font-weight:800;font-size:16px;padding:16px;border-radius:14px;margin-top:4px;transition:.15s;letter-spacing:.01em}
+.cta:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,180,131,.30)}
+.cta:disabled{opacity:.6;cursor:wait;transform:none}
+.consent{font-size:11px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.55}
+.prize{margin-top:16px;background:linear-gradient(135deg,rgba(78,201,168,.10),rgba(212,180,131,.07));border:1px solid rgba(212,180,131,.18);border-radius:16px;padding:14px 16px;display:flex;gap:12px;align-items:center}
+.prize .ic{font-size:24px;flex:0 0 auto}.prize b{color:var(--gold);font-weight:800}
+.prize small{color:var(--muted);font-size:12px;display:block;margin-top:2px}
+.lfoot{text-align:center;color:#4a5468;font-size:11px;margin-top:18px;line-height:1.7}
+
+/* ── topbar ── */
 #app{display:none;padding-bottom:40px}
-.topbar{position:sticky;top:0;z-index:40;background:rgba(10,14,26,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.topbar .in{display:flex;align-items:center;justify-content:space-between;padding:11px 0;gap:10px}
-.topbar .who{font-size:13px;color:var(--muted)}.topbar .who b{color:var(--ink);font-weight:800}
-.logout{background:none;border:1px solid var(--line);color:var(--muted);font-family:inherit;font-weight:700;font-size:12px;padding:6px 11px;border-radius:9px;cursor:pointer}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(10,14,26,.90);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topbar .in{display:flex;align-items:center;justify-content:space-between;padding:10px 0;position:relative;height:50px}
+.tbrand{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:9px;pointer-events:none}
+.tlogo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:grid;place-items:center;overflow:hidden;position:relative;flex:0 0 auto}
+.tlogo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:3px}
+.tlogo span{font-family:"Bricolage Grotesque";font-weight:800;font-size:14px;color:var(--navy)}
+.tname{font-family:"Bricolage Grotesque";font-weight:800;font-size:15px;letter-spacing:-.01em}
+.tname em{font-style:normal;color:var(--gold)}
+.tright{display:flex;align-items:center;gap:8px;margin-left:auto}
+.twho{font-size:12px;color:var(--muted)}.twho b{color:var(--ink);font-weight:800}
+.logout{background:none;border:1px solid var(--line);color:var(--muted);font-family:inherit;font-weight:700;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer;transition:.15s}
 .logout:hover{color:var(--ink);border-color:var(--gold)}
-.appbanner{position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--navy2),var(--navy))}
-.appbanner .pitch{position:absolute;inset:0;opacity:.14;background:repeating-linear-gradient(90deg,transparent 0 44px,rgba(255,255,255,.06) 44px 88px)}
-.appbanner .glow{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(212,180,131,.22),transparent 65%);top:-130px;right:6%}
-.appbanner .in{position:relative;padding:18px 0 16px}
-.appbanner .kick{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--mint);font-weight:800}
-.appbanner h2{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(24px,6vw,38px);line-height:1;margin:5px 0;letter-spacing:-.02em}
+.savedot{font-size:10.5px;color:var(--mint);font-weight:800;opacity:0;transition:.3s}.savedot.show{opacity:1}
+
+/* ── banner ── */
+.appbanner{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.appbanner::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 44px,rgba(255,255,255,.03) 44px 88px)}
+.appbanner .glow{position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(212,180,131,.18),transparent 65%);top:-170px;right:4%;pointer-events:none}
+.appbanner .in{position:relative;padding:16px 0 14px}
+.appbanner .kick{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--mint);font-weight:800}
+.appbanner h2{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(22px,5.5vw,36px);line-height:1.02;margin:4px 0;letter-spacing:-.02em}
 .appbanner h2 em{font-style:normal;color:var(--gold)}
-.scorebar{position:sticky;top:47px;z-index:35;background:rgba(10,14,26,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.scorebar .in{display:flex;align-items:center;justify-content:space-between;padding:9px 0;gap:10px}
-.tot{display:flex;align-items:baseline;gap:8px}
-.tot .n{font-family:"Bricolage Grotesque";font-size:27px;color:var(--gold);line-height:1;font-weight:800}
-.tot .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:800}
-.rankpill{font-size:12px;color:var(--mint);background:rgba(78,201,168,.12);border:1px solid var(--mint-d);padding:5px 11px;border-radius:99px;font-weight:800}
+
+/* ── scorebar ── */
+.scorebar{position:sticky;top:50px;z-index:35;background:rgba(10,14,26,.90);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.scorebar .in{display:flex;align-items:center;justify-content:space-between;padding:8px 0;gap:10px}
+.tot{display:flex;align-items:baseline;gap:7px}
+.tot .n{font-family:"Bricolage Grotesque";font-size:26px;color:var(--gold);line-height:1;font-weight:800}
+.tot .l{font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);font-weight:800}
+.rankpill{font-size:11.5px;color:var(--mint);background:rgba(78,201,168,.10);border:1px solid rgba(78,201,168,.25);padding:5px 12px;border-radius:99px;font-weight:800}
+
+/* ── tabs ── */
 nav.tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 0 0;scrollbar-width:none}
 nav.tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--muted);padding:9px 15px;border-radius:99px;font-family:inherit;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab{flex:0 0 auto;background:transparent;border:1px solid var(--line);color:var(--muted);padding:8px 14px;border-radius:99px;font-family:inherit;font-weight:800;font-size:12.5px;cursor:pointer;white-space:nowrap;transition:.15s}
 .tab:hover{color:var(--ink);border-color:var(--gold-d)}
 .tab.on{background:var(--gold);border-color:var(--gold);color:var(--navy)}
-.tab.adm.on{background:var(--mint);border-color:var(--mint)}
-section{display:none;padding-top:16px;animation:fade .25s ease}
+.tab.adm.on{background:var(--mint);border-color:var(--mint);color:#04130d}
+section{display:none;padding-top:14px;animation:fade .2s ease}
 section.on{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.trivia{margin-bottom:16px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(135deg,rgba(78,201,168,.16),rgba(212,180,131,.10)),var(--card)}
-.trivia .in{padding:16px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.trivia .tx{flex:1;min-width:190px}
-.trivia .lab{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mint);font-weight:800}
-.trivia h4{font-family:"Bricolage Grotesque";font-weight:800;font-size:18px;margin:3px 0 4px}
-.trivia p{color:var(--muted);font-size:12.5px;line-height:1.45}
-.trivia .go{background:var(--mint);color:#04130d;border:none;font-family:"Bricolage Grotesque";font-weight:800;font-size:13px;padding:11px 18px;border-radius:11px;cursor:pointer;white-space:nowrap}
-.grp{margin-bottom:13px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card)}
-.grp>summary{list-style:none;cursor:pointer;padding:13px 15px;display:flex;align-items:center;gap:11px;background:linear-gradient(90deg,var(--card2),transparent);user-select:none}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* ── layout 2 cols ── */
+#applayout{display:grid;grid-template-columns:1fr 272px;gap:22px;max-width:1200px;margin:0 auto;padding:0 16px}
+.appmain{min-width:0}
+#sidebar{display:flex;flex-direction:column;gap:12px;position:sticky;top:106px;align-self:start}
+@media(max-width:920px){#applayout{grid-template-columns:1fr}#sidebar{display:none}}
+
+/* ── sidebar cards ── */
+.sdcard{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+/* card agencia */
+.agcard{padding:20px}
+.agcard .aglogo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:grid;place-items:center;overflow:hidden;position:relative;margin-bottom:12px;box-shadow:0 6px 18px rgba(212,180,131,.20)}
+.agcard .aglogo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:5px}
+.agcard .aglogo span{font-family:"Bricolage Grotesque";font-weight:800;font-size:24px;color:var(--navy)}
+.agcard h3{font-family:"Bricolage Grotesque";font-weight:800;font-size:16px;letter-spacing:-.01em;margin-bottom:3px}
+.agcard .agh{color:var(--mint);font-size:12px;font-weight:700;margin-bottom:8px}
+.agcard p{color:var(--muted);font-size:12.5px;line-height:1.55;margin-bottom:14px}
+.agbtns{display:flex;flex-direction:column;gap:8px}
+.igbtn{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;border:none;border-radius:11px;padding:11px;font-family:"Bricolage Grotesque";font-weight:800;font-size:13px;cursor:pointer;text-decoration:none;transition:.15s}
+.igbtn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.wabtn{display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(37,211,102,.12);color:#25d366;border:1px solid rgba(37,211,102,.25);border-radius:11px;padding:11px;font-family:"Bricolage Grotesque";font-weight:800;font-size:13px;text-decoration:none;transition:.15s}
+.wabtn:hover{background:rgba(37,211,102,.20);transform:translateY(-1px)}
+/* card destinos */
+.destcard{padding:18px}
+.destcard h4{font-family:"Bricolage Grotesque";font-weight:800;font-size:15px;margin-bottom:4px}
+.destcard p{color:var(--muted);font-size:12px;line-height:1.5;margin-bottom:14px}
+.destchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.dchip{padding:5px 11px;border-radius:99px;border:1px solid var(--line);background:var(--card2);font-size:12px;font-weight:700;color:var(--ink)}
+.ctabtn{display:block;text-align:center;background:var(--mint);color:#04130d;border:none;border-radius:11px;padding:12px;font-family:"Bricolage Grotesque";font-weight:800;font-size:14px;cursor:pointer;text-decoration:none;transition:.15s}
+.ctabtn:hover{background:#5dd4b2;transform:translateY(-1px)}
+
+/* ── partidos ── */
+.trivia{margin-bottom:14px;border-radius:16px;overflow:hidden;border:1px solid rgba(78,201,168,.2);background:linear-gradient(135deg,rgba(78,201,168,.10),rgba(212,180,131,.06)),var(--card)}
+.trivia .in{padding:15px 17px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.trivia .tx{flex:1;min-width:180px}
+.trivia .lab{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mint);font-weight:800}
+.trivia h4{font-family:"Bricolage Grotesque";font-weight:800;font-size:17px;margin:3px 0 3px}
+.trivia p{color:var(--muted);font-size:12px;line-height:1.45}
+.trivia .go{background:var(--mint);color:#04130d;border:none;font-family:"Bricolage Grotesque";font-weight:800;font-size:13px;padding:10px 17px;border-radius:10px;cursor:pointer;white-space:nowrap}
+.grp{margin-bottom:11px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
+.grp>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:center;gap:10px;background:linear-gradient(90deg,var(--card2),transparent);user-select:none}
 .grp>summary::-webkit-details-marker{display:none}
-.gtag{font-family:"Bricolage Grotesque";font-size:18px;font-weight:800;color:var(--gold);background:var(--navy);border:1px solid var(--line);width:40px;height:33px;display:grid;place-items:center;border-radius:9px}
+.gtag{font-family:"Bricolage Grotesque";font-size:17px;font-weight:800;color:var(--gold);background:var(--navy2);border:1px solid var(--line);width:38px;height:31px;display:grid;place-items:center;border-radius:8px}
 .gteams{font-size:12px;color:var(--muted);font-weight:600;flex:1;display:flex;flex-wrap:wrap;gap:4px;align-items:center}
-.chev{color:var(--muted);transition:.2s}.grp[open] .chev{transform:rotate(180deg)}
-.glist{padding:10px 13px 13px}
-.match{display:grid;grid-template-columns:52px 1fr 30px;gap:9px;align-items:center;margin-top:8px}
-.fchip{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;text-align:center;line-height:1.25}
-.pill{background:var(--cream);border-radius:40px;padding:7px 12px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;color:var(--navy);box-shadow:0 4px 14px rgba(0,0,0,.18)}
-.pill.arg{box-shadow:0 0 0 2px var(--gold),0 4px 14px rgba(0,0,0,.18)}
-.sd{display:flex;align-items:center;gap:8px;min-width:0}.sd.r{justify-content:flex-end}
-.tn{font-weight:800;font-size:12.5px;text-transform:uppercase;color:#1a2236;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.score{display:flex;align-items:center;gap:5px}
-.score input{width:30px;height:34px;text-align:center;background:var(--navy);color:var(--cream);border:none;border-radius:9px;font-family:"Hanken Grotesk";font-size:17px;font-weight:800}
+.chev{color:var(--muted);font-size:11px;transition:.2s}.grp[open] .chev{transform:rotate(180deg)}
+.glist{padding:8px 12px 12px}
+.match{display:grid;grid-template-columns:48px 1fr 26px;gap:8px;align-items:center;margin-top:7px}
+.fchip{font-size:9.5px;color:var(--muted);font-weight:800;text-transform:uppercase;text-align:center;line-height:1.3}
+.pill{background:var(--cream);border-radius:38px;padding:6px 11px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:7px;color:#111827;box-shadow:0 3px 12px rgba(0,0,0,.20)}
+.pill.arg{box-shadow:0 0 0 2px var(--gold),0 3px 12px rgba(0,0,0,.20)}
+.sd{display:flex;align-items:center;gap:7px;min-width:0}.sd.r{justify-content:flex-end}
+.tn{font-weight:800;font-size:12px;text-transform:uppercase;color:#1a2236;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.score{display:flex;align-items:center;gap:4px}
+.score input{width:28px;height:32px;text-align:center;background:var(--navy);color:var(--cream);border:none;border-radius:8px;font-family:"Hanken Grotesk";font-size:16px;font-weight:800}
 .score input:focus{outline:none;box-shadow:0 0 0 2px var(--gold)}
-.score .dash{color:#9aa3bd;font-weight:800;font-size:12px}
+.score .dash{color:#9aa3bd;font-weight:800;font-size:11px}
+.flag{position:relative;width:26px;height:26px;border-radius:50%;overflow:hidden;flex:0 0 auto;display:inline-grid;place-items:center;background:#2a3550;color:#fff;font-size:8px;font-weight:800}
+.flag img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.flag.sm{width:20px;height:20px;font-size:7px}
 .mp{font-size:11px;font-weight:800;text-align:center;color:var(--muted)}
 .mp.p5{color:var(--gold)}.mp.p2{color:var(--mint)}.mp.p0{color:#6b5448}
-@media(max-width:560px){.tn{font-size:11px}.match{grid-template-columns:42px 1fr 22px;gap:7px}.pill{padding:6px 9px;gap:5px}.flag{width:24px;height:24px}}
-.note{color:var(--muted);font-size:13px;margin:2px 0 16px;line-height:1.5}
-.blk{border:1px solid var(--line);border-radius:16px;background:var(--card);margin-bottom:13px;overflow:hidden}
-.blk h3{font-family:"Hanken Grotesk";font-weight:800;font-size:13.5px;padding:12px 15px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,var(--card2),transparent);text-transform:uppercase}
-.blk h3 .pp{font-size:11px;color:var(--navy);background:var(--gold);padding:3px 9px;border-radius:99px;font-weight:800}
-.picks{padding:12px 15px;display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:9px}
+@media(max-width:560px){.tn{font-size:11px}.match{grid-template-columns:40px 1fr 20px;gap:6px}.pill{padding:5px 8px;gap:5px}.flag{width:22px;height:22px}}
+
+/* ── elim ── */
+.note{color:var(--muted);font-size:13px;margin:2px 0 14px;line-height:1.5}
+.blk{border:1px solid var(--line);border-radius:14px;background:var(--card);margin-bottom:12px;overflow:hidden}
+.blk h3{font-family:"Hanken Grotesk";font-weight:800;font-size:13px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,var(--card2),transparent);text-transform:uppercase;letter-spacing:.02em}
+.blk h3 .pp{font-size:10.5px;color:var(--navy);background:var(--gold);padding:3px 8px;border-radius:99px;font-weight:800}
+.picks{padding:11px 14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px}
 .pick{display:flex;flex-direction:column;gap:4px}
-.pick small{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800}
-select,.txin{background:var(--navy);border:1px solid var(--line);color:var(--ink);padding:9px 10px;border-radius:10px;font-family:inherit;font-size:14px;font-weight:600;width:100%}
+.pick small{font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800}
+select,.txin{background:var(--navy2);border:1px solid var(--line);color:var(--ink);padding:8px 10px;border-radius:9px;font-family:inherit;font-size:13.5px;font-weight:600;width:100%;transition:.15s}
 select:focus,.txin:focus{outline:none;border-color:var(--gold)}
-.champ-wrap{padding:14px 15px}.champ-wrap .pick{max-width:280px}
+.champ-wrap{padding:13px 14px}.champ-wrap .pick{max-width:260px}
+
+/* ── ranking ── */
 .rkhead{display:flex;align-items:center;justify-content:space-between;margin:2px 0 12px;flex-wrap:wrap;gap:8px}
-.rkhead .demo{font-size:11px;color:var(--muted);background:var(--card);border:1px solid var(--line);padding:4px 10px;border-radius:99px;font-weight:700}
-.podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;align-items:end}
-.pod{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 8px;text-align:center}
-.pod .av{width:40px;height:40px;border-radius:50%;margin:0 auto 7px;display:grid;place-items:center;font-weight:800;font-family:"Bricolage Grotesque";color:var(--navy)}
-.pod .nm{font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pod .pt{font-family:"Bricolage Grotesque";font-weight:800;font-size:19px;color:var(--gold);margin-top:2px}
-.pod.first{transform:translateY(-8px);border-color:var(--gold)}
-.pod.first .av{background:linear-gradient(135deg,var(--gold),var(--gold-d));width:48px;height:48px}
-.pod.second .av{background:linear-gradient(135deg,#cfd6e6,#9aa3bd)}
-.pod.third .av{background:linear-gradient(135deg,#e0a878,#b3794a)}
-.medal{font-size:14px}
-.rktable{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
-.rkrow{display:flex;align-items:center;gap:12px;padding:12px 15px;border-top:1px solid #1a2540}
+.rkhead .rktag{font-size:11px;color:var(--muted);background:var(--card);border:1px solid var(--line);padding:4px 10px;border-radius:99px;font-weight:700}
+.podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:13px;align-items:end}
+.pod{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px 8px;text-align:center}
+.pod .av{width:38px;height:38px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;font-weight:800;font-family:"Bricolage Grotesque";color:var(--navy);font-size:15px}
+.pod .nm{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pod .pt{font-family:"Bricolage Grotesque";font-weight:800;font-size:18px;color:var(--gold);margin-top:2px}
+.pod.first{transform:translateY(-7px);border-color:var(--gold)}
+.pod.first .av{background:linear-gradient(135deg,var(--gold),var(--gold-d));width:46px;height:46px}
+.pod.second .av{background:linear-gradient(135deg,#c8d2e2,#8a95b0)}
+.pod.third .av{background:linear-gradient(135deg,#d89a6a,#a66e3e)}
+.medal{font-size:13px;margin-bottom:2px}
+.rktable{border:1px solid var(--line);border-radius:13px;overflow:hidden;background:var(--card)}
+.rkrow{display:flex;align-items:center;gap:11px;padding:11px 14px;border-top:1px solid #151e30}
 .rkrow:first-child{border-top:none}
-.rkrow.me{background:linear-gradient(90deg,rgba(212,180,131,.12),transparent)}
-.rkrow .pos{font-family:"Bricolage Grotesque";font-weight:800;color:var(--muted);width:24px;text-align:center}
-.rkrow .av2{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:12px;color:var(--navy);background:var(--sky);flex:0 0 auto}
-.rkrow .nm2{flex:1;font-weight:700;font-size:14px}.rkrow .nm2 .tag{font-size:10px;color:var(--mint);font-weight:800;margin-left:6px}
+.rkrow.me{background:linear-gradient(90deg,rgba(212,180,131,.10),transparent)}
+.rkrow .pos{font-family:"Bricolage Grotesque";font-weight:800;color:var(--muted);width:22px;text-align:center;font-size:14px}
+.rkrow .av2{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:11px;color:var(--navy);background:var(--sky);flex:0 0 auto}
+.rkrow .nm2{flex:1;font-weight:700;font-size:13.5px}
+.rkrow .nm2 .tag{font-size:9.5px;color:var(--mint);font-weight:800;margin-left:6px;letter-spacing:.04em}
 .rkrow .pt2{font-family:"Bricolage Grotesque";font-weight:800;font-size:17px;color:var(--gold)}
-.mkt{margin:18px 0 6px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(135deg,rgba(212,180,131,.14),rgba(78,201,168,.10)),var(--card)}
-.mkt .in{padding:18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.mkt .tx{flex:1;min-width:200px}.mkt h4{font-family:"Bricolage Grotesque";font-weight:800;font-size:18px;margin-bottom:4px}
-.mkt p{color:var(--muted);font-size:13px;line-height:1.5}
-.mkt .btn{background:var(--mint);color:#04130d;border:none;font-family:"Bricolage Grotesque";font-weight:800;font-size:14px;padding:12px 18px;border-radius:12px;cursor:pointer;white-space:nowrap;display:inline-block}
-.iggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:13px 15px}
-.igpost{aspect-ratio:1;border-radius:11px;position:relative;overflow:hidden;display:grid;place-items:center;background:linear-gradient(135deg,#1d2740,#27406b);border:1px solid var(--line)}
-.igpost span{font-size:22px}.igpost .cap{position:absolute;bottom:0;left:0;right:0;font-size:9px;color:#cdd6ea;padding:5px;background:linear-gradient(0deg,rgba(0,0,0,.6),transparent);font-weight:600}
-.ighint{padding:0 15px 14px;color:var(--muted);font-size:11.5px;line-height:1.5}
-.social{border-top:1px solid var(--line);margin-top:26px;background:var(--navy2)}
-.social .in{padding:18px 0 24px;text-align:center}
-.social .row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.sbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 16px;border-radius:12px;font-weight:700;font-size:13px;transition:.15s}
-.sbtn:hover{border-color:var(--gold);transform:translateY(-1px)}.sbtn .em{font-size:16px}
-.social .slogan{font-family:"Bricolage Grotesque";font-weight:800;font-size:13px;color:var(--gold);letter-spacing:.04em}
-.social .legal{color:#566;font-size:10.5px;margin-top:6px}
-.social .legal a{color:#7a86a6;text-decoration:underline;cursor:pointer}
-/* layout 2 col desktop */
-#applayout{display:grid;grid-template-columns:1fr 265px;gap:20px;max-width:1180px;margin:0 auto;padding:0 16px}
-.appmain{min-width:0}
-#sidebar{display:flex;flex-direction:column;gap:14px;position:sticky;top:110px;align-self:start}
-@media(max-width:900px){#applayout{grid-template-columns:1fr;padding:0 16px}#sidebar{display:none}}
-/* sidebar cards */
-.sdbox{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.sdbox .sdhead{padding:13px 15px 0;display:flex;align-items:center;gap:8px}
-.sdbox .sdhead .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);display:grid;place-items:center;font-size:16px;flex:0 0 auto}
-.sdbox .sdhead .inf{font-size:13px;font-weight:800}.sdbox .sdhead .inf small{display:block;color:var(--muted);font-size:10.5px;font-weight:600}
-.iggrid2{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:12px 12px 8px}
-.igp{aspect-ratio:1;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,#1d2740,#27406b);border:1px solid var(--line);font-size:22px;transition:.15s;cursor:pointer}
-.igp:hover{transform:scale(1.04);border-color:var(--gold)}
-.igfollow{display:block;margin:0 12px 13px;background:linear-gradient(90deg,#833ab4,#fd1d1d,#fcb045);color:#fff;border:none;border-radius:10px;padding:10px;text-align:center;font-family:"Bricolage Grotesque";font-weight:800;font-size:13px;cursor:pointer;text-decoration:none}
-/* CTA lateral */
-.sdcta{padding:16px;text-align:center}
-.sdcta h4{font-family:"Bricolage Grotesque";font-weight:800;font-size:16px;margin-bottom:6px}
-.sdcta p{color:var(--muted);font-size:12px;line-height:1.5;margin-bottom:12px}
-.sdcta a{display:block;background:var(--mint);color:#04130d;font-family:"Bricolage Grotesque";font-weight:800;font-size:14px;padding:11px;border-radius:11px}
-/* WhatsApp flotante */
-.wa{position:fixed;bottom:22px;right:22px;z-index:50;width:54px;height:54px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 6px 20px rgba(37,211,102,.4);transition:.2s;text-decoration:none}
-.wa:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(37,211,102,.5)}
-.wa svg{width:28px;height:28px;fill:#fff}
-.legend{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 12px;font-size:12px;color:var(--muted)}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:middle}
-.foot{color:#566;font-size:11px;text-align:center;margin-top:14px;line-height:1.6}
-.savedot{font-size:11px;color:var(--mint);font-weight:800;opacity:0;transition:.3s}.savedot.show{opacity:1}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 11px;font-size:11.5px;color:var(--muted)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:middle}
+
+/* ── admin ── */
 .admbox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;max-width:360px;margin-bottom:14px}
-.bigbtn{background:var(--mint);color:#04130d;border:none;font-family:"Bricolage Grotesque";font-weight:800;font-size:14px;padding:12px 18px;border-radius:12px;cursor:pointer}
+.bigbtn{background:var(--mint);color:#04130d;border:none;font-family:"Bricolage Grotesque";font-weight:800;font-size:14px;padding:11px 17px;border-radius:11px;cursor:pointer;transition:.15s}
+.bigbtn:hover{background:#5dd4b2}
 .bigbtn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+
+/* ── footer social ── */
+.social{border-top:1px solid var(--line);margin-top:24px;background:var(--navy2)}
+.social .in{padding:18px 0 22px;text-align:center}
+.social .srow{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.sbtn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 15px;border-radius:11px;font-weight:700;font-size:12.5px;transition:.15s}
+.sbtn:hover{border-color:var(--gold);transform:translateY(-1px)}
+.social .slogan{font-family:"Bricolage Grotesque";font-weight:800;font-size:12.5px;color:var(--gold);letter-spacing:.05em}
+.social .legal{color:#3d4a60;font-size:10px;margin-top:5px}
+.social .legal a{color:#5a6a82;text-decoration:underline;cursor:pointer}
+
+/* ── botones flotantes ── */
+.floatbtns{position:fixed;bottom:22px;right:20px;z-index:50;display:flex;flex-direction:column;gap:10px;align-items:center}
+.fbt{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:.2s;text-decoration:none;border:none;cursor:pointer}
+.fbt:hover{transform:scale(1.12)}
+.fbt.ig{background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)}
+.fbt.wa{background:#25d366;box-shadow:0 6px 20px rgba(37,211,102,.35)}
+.fbt svg{width:24px;height:24px;fill:#fff}
 </style>
 
-<div class="cfgflag demo" id="cfgflag">⚙️ MODO DEMO — pegá tu SB_URL y SB_ANON en el código y corré el SQL para activar el modo real.</div>
+<div class="modebar demo" id="modebar">⚙ Modo demo · pegá SB_URL y SB_ANON en el CONFIG para activar</div>
 
+<!-- ═══════════ LOGIN ═══════════ -->
 <div id="login"><div class="lcard">
-  <div class="brand"><div class="logo"><img src="https://www.gemicheck.com.ar/images/logo.png" alt="GemiCheck" onerror="this.style.display='none'">G</div><div class="bn">GemiCheck <span>Prode</span></div></div>
-  <div class="hero"><div class="kick">⚽ Mundial 2026 · USA · México · Canadá</div>
-    <h1>Jugá el prode<br>y ganá un <em>viaje</em></h1>
-    <p>Pronosticá los 104 partidos del Mundial. El que más puntos suma se lleva el premio GemiCheck. Gratis, sin contraseñas.</p></div>
-  <div class="formcard"><h2>Entrá a jugar</h2><div class="sub">Solo tu nombre y tu mail. Listo.</div>
-    <div class="field" id="fName"><label>Nombre completo</label><input id="iName" placeholder="Ej: Cristian Castellano" autocomplete="name"><div class="errmsg">Poné tu nombre completo</div></div>
-    <div class="field" id="fMail"><label>Email</label><input id="iMail" type="email" placeholder="tucorreo@mail.com" autocomplete="email"><div class="errmsg">Poné un email válido</div></div>
+  <div class="lbrand">
+    <div class="llogo">
+      <img src="https://www.gemicheck.com.ar/images/logo.png" alt="GemiCheck" onerror="this.style.display='none'">
+      <span>G</span>
+    </div>
+    <h1>GemiCheck <em>Prode</em></h1>
+    <p class="tagline">Pronosticá el <b>Mundial 2026</b>, escalá en el ranking y ganá el premio GemiCheck.</p>
+  </div>
+  <div class="formcard">
+    <h2>Entrá a jugar</h2>
+    <div class="sub">Solo tu nombre y mail — sin contraseñas.</div>
+    <div class="field" id="fName">
+      <label>Nombre completo</label>
+      <input id="iName" placeholder="Ej: Cristian Castellano" autocomplete="name">
+      <div class="errmsg">Poné tu nombre completo</div>
+    </div>
+    <div class="field" id="fMail">
+      <label>Email</label>
+      <input id="iMail" type="email" placeholder="tucorreo@mail.com" autocomplete="email">
+      <div class="errmsg">Poné un email válido</div>
+    </div>
     <button class="cta" id="enter">Empezar mi prode →</button>
-    <div class="consent">Al entrar aceptás recibir novedades y promos de viajes de GemiCheck. Cancelás cuando quieras.</div>
-    <div class="prize"><div class="ic">🏆</div><div><b>Premio: voucher de viaje GemiCheck</b><small>(ejemplo — vos definís el premio y las bases)</small></div></div>
+    <div class="consent">Al entrar aceptás recibir novedades y promos de GemiCheck. Cancelás cuando quieras.</div>
+    <div class="prize">
+      <div class="ic">🏆</div>
+      <div><b>Premio: voucher de viaje GemiCheck</b><small>Definís vos el premio y las bases</small></div>
+    </div>
   </div>
   <div class="lfoot">FANÁTICOS DE HACERTE FELIZ · gemicheck.com.ar</div>
 </div></div>
 
+<!-- ═══════════ APP ═══════════ -->
 <div id="app">
-  <div class="topbar"><div class="wrap in">
-    <div class="brand" style="margin:0;gap:8px"><div class="logo" style="width:30px;height:30px;font-size:16px;border-radius:8px"><img src="https://www.gemicheck.com.ar/images/logo.png" alt="GemiCheck" onerror="this.style.display='none'">G</div><div class="bn" style="font-size:16px">GemiCheck <span>Prode</span></div></div>
-    <div style="display:flex;align-items:center;gap:10px"><span class="savedot" id="savedot">✓ guardado</span><span class="who">Hola, <b id="hi">—</b></span><button class="logout" id="logout">Salir</button></div>
+  <div class="topbar"><div class="wrap" style="max-width:1200px;margin:0 auto;padding:0 16px">
+    <div class="in">
+      <div class="tbrand">
+        <div class="tlogo"><img src="https://www.gemicheck.com.ar/images/logo.png" alt="" onerror="this.style.display='none'"><span>G</span></div>
+        <span class="tname">GemiCheck <em>Prode</em></span>
+      </div>
+      <div class="tright">
+        <span class="savedot" id="savedot">✓ guardado</span>
+        <span class="twho">Hola, <b id="hi">—</b></span>
+        <button class="logout" id="logout">Salir</button>
+      </div>
+    </div>
   </div></div>
-  <div class="appbanner"><div class="pitch"></div><div class="glow"></div><div class="wrap in"><div class="kick">⚽ Tu prode del Mundial</div><h2>Mundial <em>2026</em></h2></div></div>
-  <div class="scorebar"><div class="wrap in"><div class="tot"><span class="n" id="totN">0</span><span class="l">tus puntos</span></div><span class="rankpill" id="rankPill">Ranking en vivo</span></div></div>
+
+  <div class="appbanner"><div class="glow"></div>
+    <div class="wrap" style="max-width:1200px;margin:0 auto;padding:0 16px">
+      <div class="in" style="padding:16px 0 14px">
+        <div class="kick">⚽ Tu prode del Mundial</div>
+        <h2>Mundial <em>2026</em></h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="scorebar"><div class="wrap" style="max-width:1200px;margin:0 auto;padding:0 16px">
+    <div class="in">
+      <div class="tot"><span class="n" id="totN">0</span><span class="l">tus puntos</span></div>
+      <span class="rankpill">Ranking en vivo</span>
+    </div>
+  </div></div>
+
   <div id="applayout">
    <div class="appmain">
     <nav class="tabs">
@@ -213,112 +298,140 @@ select:focus,.txin:focus{outline:none;border-color:var(--gold)}
       <button class="tab" data-t="reglas">Reglas</button>
       <button class="tab adm" data-t="admin" id="admTab" style="display:none">🔧 Admin</button>
     </nav>
+
     <section id="grupos" class="on">
-      <div class="trivia"><div class="in"><div class="tx"><div class="lab">⭐ Trivia general</div><h4>Sumá puntos extra</h4><p>Respondé la trivia del Mundial antes del partido inaugural y ganá puntos bonus para escalar en el ranking.</p></div><button class="go" id="trBtn">¡Responder!</button></div></div>
+      <div class="trivia"><div class="in">
+        <div class="tx"><div class="lab">⭐ Trivia general</div><h4>Sumá puntos extra</h4><p>Respondé la trivia del Mundial antes del partido inaugural y ganá puntos bonus.</p></div>
+        <button class="go" id="trBtn">¡Responder!</button>
+      </div></div>
       <div id="grpList"></div>
     </section>
-    <section id="elim"><p class="note">Predecí quién avanza. Cada acierto suma cuando se confirme en la cancha.</p><div id="elimBlocks"></div></section>
+
+    <section id="elim">
+      <p class="note">Predecí quién avanza. Cada acierto suma cuando se confirme.</p>
+      <div id="elimBlocks"></div>
+    </section>
+
     <section id="rank">
-      <div class="rkhead"><span class="legend"><span><i style="background:var(--gold)"></i>5 = exacto</span><span><i style="background:var(--mint)"></i>2 = signo</span></span><span class="demo" id="rkTag">Ranking</span></div>
+      <div class="rkhead">
+        <span class="legend"><span><i style="background:var(--gold)"></i>5 = exacto</span><span><i style="background:var(--mint)"></i>2 = signo</span></span>
+        <span class="rktag" id="rkTag">Ranking</span>
+      </div>
       <div class="podium" id="podium"></div>
       <div class="rktable" id="rktable"></div>
-      <div class="mkt"><div class="in"><div class="tx"><h4>¿Te pinta el Mundial en vivo? 🌎</h4><p>Armá tu viaje con GemiCheck: pasajes, hoteles y todo listo. Atención humana y precios transparentes.</p></div><a class="btn" href="https://www.gemicheck.com.ar" target="_blank" rel="noopener">Cotizar mi viaje</a></div></div>
-      <div class="blk" style="margin-top:16px"><h3>📷 Lo último en @gemicheck.turismo</h3>
-        <div class="iggrid">
-          <a class="igpost" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener"><span>🏔️</span><span class="cap">Bariloche</span></a>
-          <a class="igpost" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener"><span>🏖️</span><span class="cap">Río + Búzios</span></a>
-          <a class="igpost" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener"><span>🍷</span><span class="cap">Mendoza</span></a>
-        </div>
-        <div class="ighint">↑ En la versión real se conecta con un widget (SnapWidget / Behold) para traer tus últimos posteos solos.</div>
-      </div>
     </section>
+
     <section id="reglas">
-      <div class="blk"><h3>Cómo se puntúa</h3><div style="padding:6px 15px 14px"><table style="width:100%;border-collapse:collapse;font-size:14px">
-        <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0">Resultado <b>exacto</b></td><td style="text-align:right;color:var(--gold);font-weight:800">5</td></tr>
-        <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0">Acertar quién gana / empate</td><td style="text-align:right;color:var(--mint);font-weight:800">2</td></tr>
-        <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0">Cada cuartofinalista</td><td style="text-align:right;font-weight:800">5</td></tr>
-        <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0">Cada semifinalista</td><td style="text-align:right;font-weight:800">8</td></tr>
-        <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0">Cada finalista</td><td style="text-align:right;font-weight:800">12</td></tr>
-        <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0;color:var(--gold);font-weight:800">CAMPEÓN</td><td style="text-align:right;color:var(--gold);font-weight:800">25</td></tr>
-        <tr><td style="padding:9px 0">Goleador</td><td style="text-align:right;font-weight:800">10</td></tr>
-      </table></div></div>
+      <div class="blk"><h3>Sistema de puntos</h3><div style="padding:6px 14px 14px">
+        <table style="width:100%;border-collapse:collapse;font-size:13.5px">
+          <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0">Resultado <b>exacto</b></td><td style="text-align:right;color:var(--gold);font-weight:800">5 pts</td></tr>
+          <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0">Acertar ganador / empate</td><td style="text-align:right;color:var(--mint);font-weight:800">2 pts</td></tr>
+          <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0">Cada cuartofinalista (de 8)</td><td style="text-align:right;font-weight:800">5 pts</td></tr>
+          <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0">Cada semifinalista (de 4)</td><td style="text-align:right;font-weight:800">8 pts</td></tr>
+          <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0">Cada finalista (de 2)</td><td style="text-align:right;font-weight:800">12 pts</td></tr>
+          <tr style="border-bottom:1px solid var(--line)"><td style="padding:9px 0;color:var(--gold);font-weight:800">Campeón del Mundial</td><td style="text-align:right;color:var(--gold);font-weight:800">25 pts</td></tr>
+          <tr><td style="padding:9px 0">Goleador del torneo</td><td style="text-align:right;font-weight:800">10 pts</td></tr>
+        </table>
+      </div></div>
+      <div class="blk"><h3>Cómo funciona</h3><div style="padding:8px 14px 16px;color:#c0c8dc;font-size:13.5px;line-height:1.75">
+        1. Te registrás con nombre y mail — sin contraseña.<br>
+        2. Completás tus pronósticos antes del 11 de junio.<br>
+        3. A medida que se juegan los partidos, sumás puntos.<br>
+        4. El ranking se actualiza solo. El que más suma gana el premio.
+      </div></div>
     </section>
+
     <section id="admin">
       <div id="admLogin"><div class="admbox">
         <h3 style="font-family:Bricolage Grotesque;font-weight:800;margin-bottom:4px">Panel admin</h3>
-        <p style="color:var(--muted);font-size:13px;margin-bottom:14px">Entrá con tu usuario admin para cargar resultados.</p>
+        <p style="color:var(--muted);font-size:13px;margin-bottom:14px">Entrá con tu usuario admin para cargar resultados reales.</p>
         <div class="field"><label>Email admin</label><input id="aMail" type="email" placeholder="admin@gemicheck.com"></div>
         <div class="field"><label>Contraseña</label><input id="aPass" type="password" placeholder="••••••••"></div>
-        <button class="bigbtn" id="aLogin">Entrar</button>
+        <button class="bigbtn" id="aLogin">Entrar como admin</button>
         <div id="aErr" style="color:#e57373;font-size:12px;margin-top:8px"></div>
       </div></div>
       <div id="admPanel" style="display:none">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px">
-          <p class="note" style="margin:0">Cargá los marcadores reales y los clasificados. Se guarda para todos.</p>
-          <div style="display:flex;gap:8px"><button class="bigbtn" id="aSave">💾 Guardar resultados</button><button class="bigbtn alt" id="aOut">Salir admin</button></div>
+          <p class="note" style="margin:0">Cargá los marcadores reales. Se guarda para todos los jugadores.</p>
+          <div style="display:flex;gap:8px"><button class="bigbtn" id="aSave">💾 Guardar resultados</button><button class="bigbtn alt" id="aOut">Salir</button></div>
         </div>
         <div id="admGroups"></div>
         <div id="admElim" style="margin-top:14px"></div>
       </div>
     </section>
-  </div><!-- /appmain -->
+   </div><!-- /appmain -->
 
-  <aside id="sidebar">
-    <div class="sdbox">
-      <div class="sdhead">
-        <div class="av">📷</div>
-        <div class="inf">@gemicheck.turismo<small>Seguinos en Instagram</small></div>
-      </div>
-      <div class="iggrid2">
-        <a class="igp" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener" title="Bariloche">🏔️</a>
-        <a class="igp" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener" title="Brasil">🏖️</a>
-        <a class="igp" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener" title="Mendoza">🍷</a>
-        <a class="igp" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener" title="Iguazú">💧</a>
-        <a class="igp" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener" title="Salta">🌵</a>
-        <a class="igp" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener" title="Córdoba">🌄</a>
-      </div>
-      <a class="igfollow" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener">Ver perfil en Instagram →</a>
-    </div>
-    <div class="sdbox">
-      <div class="sdcta">
-        <h4>¿Te pinta el Mundial? 🌎</h4>
-        <p>Pasajes, hoteles y todo listo. Atención humana y precios transparentes.</p>
-        <a href="https://www.gemicheck.com.ar" target="_blank" rel="noopener">Cotizar mi viaje</a>
-      </div>
-    </div>
-  </aside>
+   <aside id="sidebar">
+     <!-- Card agencia -->
+     <div class="sdcard agcard">
+       <div class="aglogo">
+         <img src="https://www.gemicheck.com.ar/images/logo.png" alt="GemiCheck" onerror="this.style.display='none'">
+         <span>G</span>
+       </div>
+       <h3>GemiCheck Turismo</h3>
+       <div class="agh">@gemicheck.turismo</div>
+       <p>Agencia boutique con atención humana, precios transparentes y viajes a medida por Argentina y Brasil.</p>
+       <div class="agbtns">
+         <a class="igbtn" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener">
+           <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+           Seguinos en Instagram
+         </a>
+         <a class="wabtn" href="https://wa.me/5491130615149?text=Hola%20GemiCheck%2C%20quiero%20consultar%20un%20viaje!" target="_blank" rel="noopener">
+           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+           Consultá por WhatsApp
+         </a>
+       </div>
+     </div>
+     <!-- Card destinos -->
+     <div class="sdcard destcard">
+       <h4>¿Querés escaparte? ✈️</h4>
+       <p>Armamos tu viaje a medida con atención humana y precio transparente desde el día uno.</p>
+       <div class="destchips">
+         <span class="dchip">Bariloche</span><span class="dchip">Mendoza</span><span class="dchip">Brasil</span>
+         <span class="dchip">Iguazú</span><span class="dchip">Salta</span><span class="dchip">Córdoba</span>
+       </div>
+       <a class="ctabtn" href="https://wa.me/5491130615149?text=Hola%20GemiCheck%2C%20quiero%20armar%20un%20viaje!" target="_blank" rel="noopener">Cotizá tu viaje gratis →</a>
+     </div>
+   </aside>
   </div><!-- /applayout -->
 
-  <div class="social"><div class="wrap in">
-    <div class="row">
-      <a class="sbtn" href="https://www.gemicheck.com.ar" target="_blank" rel="noopener"><span class="em">🌐</span> gemicheck.com.ar</a>
-      <a class="sbtn" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener"><span class="em">📷</span> @gemicheck.turismo</a>
-      <a class="sbtn" href="https://wa.me/5491130615149" target="_blank" rel="noopener"><span class="em">💬</span> WhatsApp</a>
+  <div class="social"><div class="wrap" style="max-width:1200px;margin:0 auto;padding:0 16px">
+    <div class="in">
+      <div class="srow">
+        <a class="sbtn" href="https://www.gemicheck.com.ar" target="_blank" rel="noopener">🌐 gemicheck.com.ar</a>
+        <a class="sbtn" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener">📷 @gemicheck.turismo</a>
+        <a class="sbtn" href="https://wa.me/5491130615149" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </div>
+      <div class="slogan">FANÁTICOS DE HACERTE FELIZ</div>
+      <div class="legal">GemiCheck Turismo · <a id="goAdmin">Admin</a></div>
     </div>
-    <div class="slogan">FANÁTICOS DE HACERTE FELIZ</div>
-    <div class="legal">GemiCheck Turismo · <a id="goAdmin">Admin</a></div>
   </div></div>
+</div><!-- /app -->
+
+<!-- Botones flotantes: IG + WhatsApp -->
+<div class="floatbtns">
+  <a class="fbt ig" href="https://instagram.com/gemicheck.turismo" target="_blank" rel="noopener" title="Instagram GemiCheck">
+    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+  </a>
+  <a class="fbt wa" href="https://wa.me/5491130615149?text=Hola%20GemiCheck%2C%20quiero%20info%20sobre%20el%20prode%20y%20viajes!" target="_blank" rel="noopener" title="WhatsApp GemiCheck">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
 </div>
 
-<!-- Botón WhatsApp flotante -->
-<a class="wa" href="https://wa.me/5491130615149?text=Hola%20GemiCheck%2C%20quiero%20info%20sobre%20el%20prode%20y%20viajes%20al%20Mundial!" target="_blank" rel="noopener" title="Escribinos por WhatsApp">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</a>
-
 <script>
-// ╔═══ CONFIG: completá con TU proyecto Supabase ═══╗
+// ╔══ CONFIG: completá con TU proyecto Supabase ══╗
 const CONFIG = {
-  SB_URL: "https://TU-PROYECTO.supabase.co",
-  SB_ANON: "TU_ANON_KEY",
-  ADMIN_EMAIL: "CAMBIAME@gemicheck.com"
+  SB_URL:       "https://lnpcnjrvhqguwxxonctx.supabase.co",
+  SB_ANON:      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxucGNuanJ2aHFndXd4eG9uY3R4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5NjM2ODcsImV4cCI6MjA5NjUzOTY4N30._fNhBfMk10Obw-iXRZLQBZHA3Q-Rgfzif7Zf9J2ZXfo",
+  ADMIN_EMAIL:  "gemicheck.turismo@gmail.com"
 };
-// ╚════════════════════════════════════════════════╝
-const configured = !/TU-PROYECTO|TU_ANON/.test(CONFIG.SB_URL + CONFIG.SB_ANON);
+// ╚═══════════════════════════════════════════════╝
+const configured = !/TU_ANON_KEY/.test(CONFIG.SB_ANON);
 let sb = null;
-if (configured && window.supabase) { sb = window.supabase.createClient(CONFIG.SB_URL, CONFIG.SB_ANON); }
+if (configured && window.supabase) sb = window.supabase.createClient(CONFIG.SB_URL, CONFIG.SB_ANON);
 {
-  const f = document.getElementById("cfgflag");
-  if (configured){ f.className="cfgflag live"; f.textContent="🟢 Modo real — conectado a Supabase"; }
+  const mb = document.getElementById("modebar");
+  if (configured){ mb.className="modebar live"; mb.textContent="🟢 Conectado a Supabase · modo real"; }
 }
 
 const FIX=[
@@ -336,118 +449,108 @@ const FIX=[
 ["Mié 17/06","L","Inglaterra","Croacia"],["Mié 17/06","L","Ghana","Panamá"],["Mar 23/06","L","Inglaterra","Ghana"],["Mar 23/06","L","Panamá","Croacia"],["Sáb 27/06","L","Panamá","Inglaterra"],["Sáb 27/06","L","Croacia","Ghana"],
 ];
 const ISO={"México":"mx","Sudáfrica":"za","Corea del Sur":"kr","Rep. Checa":"cz","Canadá":"ca","Bosnia":"ba","Catar":"qa","Suiza":"ch","Brasil":"br","Marruecos":"ma","Haití":"ht","Escocia":"gb-sct","Estados Unidos":"us","Paraguay":"py","Australia":"au","Turquía":"tr","Alemania":"de","Curazao":"cw","Costa de Marfil":"ci","Ecuador":"ec","Países Bajos":"nl","Japón":"jp","Suecia":"se","Túnez":"tn","Bélgica":"be","Egipto":"eg","Irán":"ir","Nueva Zelanda":"nz","España":"es","Cabo Verde":"cv","Arabia Saudita":"sa","Uruguay":"uy","Francia":"fr","Senegal":"sn","Irak":"iq","Noruega":"no","Argentina":"ar","Argelia":"dz","Austria":"at","Jordania":"jo","Portugal":"pt","RD Congo":"cd","Uzbekistán":"uz","Colombia":"co","Inglaterra":"gb-eng","Croacia":"hr","Ghana":"gh","Panamá":"pa"};
-const ABBR={"Estados Unidos":"USA","Corea del Sur":"COR","Rep. Checa":"CHE","Países Bajos":"NED","Costa de Marfil":"CIV","Arabia Saudita":"KSA","Nueva Zelanda":"NZL","Cabo Verde":"CPV","RD Congo":"COD","Uzbekistán":"UZB","Sudáfrica":"RSA"};
-const TEAMS=Object.keys(ISO).sort((a,b)=>a.localeCompare(b,'es'));
+const ABBR={"Estados Unidos":"USA","Corea del Sur":"KOR","Rep. Checa":"CZE","Países Bajos":"NED","Costa de Marfil":"CIV","Arabia Saudita":"KSA","Nueva Zelanda":"NZL","Cabo Verde":"CPV","RD Congo":"COD","Uzbekistán":"UZB","Sudáfrica":"RSA"};
+const TEAMS=Object.keys(ISO).sort((a,b)=>a.localeCompare(b,"es"));
 const ab=t=>ABBR[t]||t.slice(0,3).toUpperCase();
-function flag(t,sm){const c=ISO[t]||"un";return `<span class="flag${sm?' sm':''}" title="${t}"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/HatScripts/circle-flags/flags/${c}.svg" alt="" onerror="this.style.display='none'">${ab(t)}</span>`}
+function flag(t,sm){const c=ISO[t]||"un";return `<span class="flag${sm?" sm":""}" title="${t}"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/HatScripts/circle-flags/flags/${c}.svg" alt="" onerror="this.style.display='none'">${ab(t)}</span>`}
+const DEMO=[["Sofía M.",298],["Lucas V.",271],["Romina G.",263],["Gonza B.",247],["Tomás R.",231],["Caro F.",218]];
 
 let S={jid:"",player:"",mail:"",preds:{},bp:{q:[],s:[],f:[],champ:"",gol:""}};
 let REAL={reals:{},br:{}};
-let isAdmin=false;
 
-/* ---- capa de datos: Supabase si está configurado, si no localStorage ---- */
 const DB={
-  async registrar(nombre,email){
-    if(sb){const{data,error}=await sb.rpc('registrar_jugador',{p_nombre:nombre,p_email:email});if(error)throw error;return data;}
-    return 'local:'+email.toLowerCase();
+  async registrar(n,e){
+    if(sb){const{data,error}=await sb.rpc("registrar_jugador",{p_nombre:n,p_email:e});if(error)throw error;return data;}
+    return "local:"+e.toLowerCase();
   },
   async getPreds(jid){
-    if(sb){const{data}=await sb.from('predicciones').select('preds,bp').eq('jugador_id',jid).maybeSingle();return data;}
-    const r=localStorage.getItem('gcp_p_'+jid);return r?JSON.parse(r):null;
+    if(sb){const{data}=await sb.from("predicciones").select("preds,bp").eq("jugador_id",jid).maybeSingle();return data;}
+    const r=localStorage.getItem("gcp_p_"+jid);return r?JSON.parse(r):null;
   },
   async savePreds(jid,preds,bp){
-    if(sb){const{error}=await sb.from('predicciones').upsert({jugador_id:jid,preds,bp,updated_at:new Date().toISOString()});if(error)throw error;return;}
-    localStorage.setItem('gcp_p_'+jid,JSON.stringify({preds,bp}));
+    if(sb){await sb.from("predicciones").upsert({jugador_id:jid,preds,bp,updated_at:new Date().toISOString()});return;}
+    localStorage.setItem("gcp_p_"+jid,JSON.stringify({preds,bp}));
   },
   async getResultados(){
-    if(sb){const{data}=await sb.from('resultados').select('reals,br').eq('id',1).maybeSingle();return data||{reals:{},br:{}};}
-    const r=localStorage.getItem('gcp_res');return r?JSON.parse(r):{reals:{},br:{}};
+    if(sb){const{data}=await sb.from("resultados").select("reals,br").eq("id",1).maybeSingle();return data||{reals:{},br:{}};}
+    const r=localStorage.getItem("gcp_res");return r?JSON.parse(r):{reals:{},br:{}};
   },
   async saveResultados(reals,br){
-    if(sb){const{error}=await sb.from('resultados').upsert({id:1,reals,br,updated_at:new Date().toISOString()});if(error)throw error;return;}
-    localStorage.setItem('gcp_res',JSON.stringify({reals,br}));
+    if(sb){const{error}=await sb.from("resultados").upsert({id:1,reals,br,updated_at:new Date().toISOString()});if(error)throw error;return;}
+    localStorage.setItem("gcp_res",JSON.stringify({reals,br}));
   },
   async getRanking(){
-    if(sb){const{data}=await sb.from('ranking_publico').select('nombre,preds,bp');return data||[];}
-    return null; // modo demo
+    if(sb){const{data}=await sb.from("ranking_publico").select("nombre,preds,bp");return data||[];}
+    return null;
   }
 };
-const DEMO=[["Sofía Méndez",312],["Lucas V.",298],["Romina G.",287],["Gonza B.",271],["Tomás R.",264],["Caro F.",240]];
 
-/* ---- puntos ---- */
 function mpts(p,r){if(!p||!r||p.l===""||p.v===""||r.l===""||r.v==="")return null;const pl=+p.l,pv=+p.v,rl=+r.l,rv=+r.v;if(pl===rl&&pv===rv)return 5;if(Math.sign(pl-pv)===Math.sign(rl-rv))return 2;return 0;}
 function calc(preds,bp){
-  preds=preds||{};bp=bp||{};const reals=REAL.reals||{},br=REAL.br||{};
-  let g=0;FIX.forEach((_,i)=>{const pt=mpts(preds[i],reals[i]);if(pt)g+=pt;});
+  preds=preds||{};bp=bp||{};
+  let g=0;FIX.forEach((_,i)=>{const pt=mpts(preds[i],REAL.reals[i]);if(pt)g+=pt;});
   const cnt=(a,b)=>(a||[]).filter(x=>x&&(b||[]).includes(x)).length;
-  const q=cnt(bp.q,br.q)*5,s=cnt(bp.s,br.s)*8,f=cnt(bp.f,br.f)*12;
-  const champ=(bp.champ&&bp.champ===br.champ)?25:0;
-  const gol=(bp.gol&&br.gol&&bp.gol.trim().toLowerCase()===(br.gol||"").trim().toLowerCase())?10:0;
-  return g+q+s+f+champ+gol;
+  return g+cnt(bp.q,REAL.br.q)*5+cnt(bp.s,REAL.br.s)*8+cnt(bp.f,REAL.br.f)*12+
+    ((bp.champ&&bp.champ===REAL.br.champ)?25:0)+
+    ((bp.gol&&REAL.br.gol&&bp.gol.trim().toLowerCase()===REAL.br.gol.trim().toLowerCase())?10:0);
 }
 function refresh(){
   document.getElementById("totN").textContent=calc(S.preds,S.bp);
   document.querySelectorAll("#grpList .match").forEach(row=>{
     const i=+row.dataset.i;const pt=mpts(S.preds[i],REAL.reals[i]);const el=row.querySelector(".mp");
-    if(!el)return;el.className="mp";if(pt===null)el.textContent="";else{el.textContent="+"+pt;el.classList.add("p"+pt);}
+    if(!el)return;el.className="mp";if(pt!==null){el.textContent="+"+pt;el.classList.add("p"+pt);}else{el.textContent="";}
   });
 }
 
-/* ---- render grupos (jugador) ---- */
-function groupTeams(g){const t=[];FIX.forEach(m=>{if(m[1]===g){if(!t.includes(m[2]))t.push(m[2]);if(!t.includes(m[3]))t.push(m[3])}});return t}
+function groupTeams(g){const t=[];FIX.forEach(m=>{if(m[1]===g){if(!t.includes(m[2]))t.push(m[2]);if(!t.includes(m[3]))t.push(m[3])}});return t;}
 function matchRow(i,store){
-  const[d,g,l,v]=FIX[i];const a=(l==="Argentina"||v==="Argentina");
+  const[d,,l,v]=FIX[i];const a=(l==="Argentina"||v==="Argentina");
   const P=store==="real"?REAL.reals:S.preds;const c=P[i]||{l:"",v:""};
-  return `<div class="match" data-i="${i}"><div class="fchip">${d.replace(' ','<br>')}</div>
-    <div class="pill${a?' arg':''}"><div class="sd">${flag(l)}<span class="tn">${l}</span></div>
+  return `<div class="match" data-i="${i}"><div class="fchip">${d.replace(" ","<br>")}</div>
+    <div class="pill${a?" arg":""}"><div class="sd">${flag(l)}<span class="tn">${l}</span></div>
     <div class="score"><input type="number" min="0" inputmode="numeric" value="${c.l}" data-st="${store}" data-i="${i}" data-s="l"><span class="dash">–</span><input type="number" min="0" inputmode="numeric" value="${c.v}" data-st="${store}" data-i="${i}" data-s="v"></div>
     <div class="sd r"><span class="tn">${v}</span>${flag(v)}</div></div><div class="mp"></div></div>`;
 }
 function renderGroups(target,store){
   document.getElementById(target).innerHTML="ABCDEFGHIJKL".split("").map(g=>{
     const ts=groupTeams(g),ms=FIX.map((m,i)=>m[1]===g?matchRow(i,store):"").join(""),open=g==="J"?"open":"";
-    return `<details class="grp" ${open}><summary><span class="gtag">${g}</span><span class="gteams">${ts.map(t=>flag(t,1)).join("")}</span><span class="chev">▾</span></summary><div class="glist">${ms}</div></details>`;
+    return `<details class="grp"${open?" open":""}><summary><span class="gtag">${g}</span><span class="gteams">${ts.map(t=>flag(t,1)).join("")}</span><span class="chev">▾</span></summary><div class="glist">${ms}</div></details>`;
   }).join("");
 }
-function opt(sel){return `<option value="">—</option>`+TEAMS.map(t=>`<option value="${t}" ${t===sel?"selected":""}>${t}</option>`).join("")}
+function opt(sel){return `<option value="">—</option>`+TEAMS.map(t=>`<option value="${t}"${t===sel?" selected":""}>${t}</option>`).join("");}
 function block(title,k,n,pp,store){const src=store==="real"?REAL.br:S.bp;const cur=src[k]||[];let b=`<div class="picks">`;
-  for(let i=0;i<n;i++)b+=`<div class="pick"><small>${i+1}</small><select data-${store==="real"?"br":"bp"}="${k}:${i}">${opt(cur[i]||"")}</select></div>`;b+=`</div>`;
-  return `<div class="blk"><h3>${title}<span class="pp">${pp} pts c/u</span></h3>${b}</div>`}
+  const attr=store==="real"?"br":"bp";
+  for(let i=0;i<n;i++)b+=`<div class="pick"><small>${i+1}</small><select data-${attr}="${k}:${i}">${opt(cur[i]||"")}</select></div>`;b+=`</div>`;
+  return `<div class="blk"><h3>${title}<span class="pp">${pp} pts c/u</span></h3>${b}</div>`;}
 function renderElim(target,store){
-  const src=store==="real"?REAL.br:S.bp;const a=store==="real"?"br":"bp";
+  const src=store==="real"?REAL.br:S.bp;const attr=store==="real"?"br":"bp";
   let h=block("Cuartofinalistas","q",8,5,store)+block("Semifinalistas","s",4,8,store)+block("Finalistas","f",2,12,store);
-  h+=`<div class="blk"><h3>Campeón 🏆<span class="pp">25 pts</span></h3><div class="champ-wrap"><div class="pick"><small>El que levanta la copa</small><select data-${a}="champ:0">${opt(src.champ)}</select></div></div></div>`;
-  h+=`<div class="blk"><h3>Goleador 👟<span class="pp">10 pts</span></h3><div class="champ-wrap"><div class="pick"><small>Bota de Oro</small><input class="txin" data-${a}="gol:0" placeholder="Ej: Lautaro Martínez" value="${src.gol||""}"></div></div></div>`;
+  h+=`<div class="blk"><h3>Campeón 🏆<span class="pp">25 pts</span></h3><div class="champ-wrap"><div class="pick"><small>El que levanta la copa</small><select data-${attr}="champ:0">${opt(src.champ)}</select></div></div></div>`;
+  h+=`<div class="blk"><h3>Goleador 👟<span class="pp">10 pts</span></h3><div class="champ-wrap"><div class="pick"><small>Bota de Oro</small><input class="txin" data-${attr}="gol:0" placeholder="Ej: Lautaro Martínez" value="${src.gol||""}"></div></div></div>`;
   document.getElementById(target).innerHTML=h;
 }
-
-/* ---- ranking ---- */
 async function renderRank(){
   const ini=n=>n.trim().split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase();
-  let all;
-  const rows=await DB.getRanking();
+  const rows=await DB.getRanking();let all;
   if(rows){
     all=rows.map(r=>({n:r.nombre,p:calc(r.preds||{},r.bp||{}),me:(r.nombre===S.player)}));
     if(!all.some(x=>x.me))all.push({n:S.player||"Vos",p:calc(S.preds,S.bp),me:true});
     document.getElementById("rkTag").textContent="Ranking en vivo";
   }else{
     all=DEMO.map(d=>({n:d[0],p:d[1]})).concat([{n:S.player||"Vos",p:calc(S.preds,S.bp),me:true}]);
-    document.getElementById("rkTag").textContent="Ranking de muestra (demo)";
+    document.getElementById("rkTag").textContent="Ranking de muestra";
   }
   all.sort((a,b)=>b.p-a.p);
   const top=all.slice(0,3),order=[1,0,2];
   document.getElementById("podium").innerHTML=order.map(idx=>{const p=top[idx];if(!p)return"<div></div>";
     const cls=idx===0?"first":idx===1?"second":"third",md=["🥇","🥈","🥉"][idx];
-    return `<div class="pod ${cls}"><div class="av">${ini(p.n)}</div><div class="medal">${md}</div><div class="nm">${p.n}${p.me?' (vos)':''}</div><div class="pt">${p.p}</div></div>`}).join("");
+    return `<div class="pod ${cls}"><div class="av">${ini(p.n)}</div><div class="medal">${md}</div><div class="nm">${p.n}${p.me?" (vos)":""}</div><div class="pt">${p.p}</div></div>`;}).join("");
   document.getElementById("rktable").innerHTML=all.map((p,i)=>
-    `<div class="rkrow${p.me?' me':''}"><span class="pos">${i+1}</span><span class="av2">${ini(p.n)}</span><span class="nm2">${p.n}${p.me?'<span class="tag">VOS</span>':''}</span><span class="pt2">${p.p}</span></div>`).join("");
+    `<div class="rkrow${p.me?" me":""}"><span class="pos">${i+1}</span><span class="av2">${ini(p.n)}</span><span class="nm2">${p.n}${p.me?'<span class="tag">VOS</span>':""}</span><span class="pt2">${p.p}</span></div>`).join("");
 }
 
-/* ---- guardado debounced ---- */
-let svT;function flagSaved(){const d=document.getElementById("savedot");d.classList.add("show");clearTimeout(svT);svT=setTimeout(()=>d.classList.remove("show"),1100);}
-let saveT;function savePreds(){clearTimeout(saveT);saveT=setTimeout(async()=>{try{await DB.savePreds(S.jid,S.preds,S.bp);flagSaved();}catch(e){console.error(e);}},600);}
+let saveT;function savePreds(){clearTimeout(saveT);saveT=setTimeout(async()=>{try{await DB.savePreds(S.jid,S.preds,S.bp);const d=document.getElementById("savedot");d.classList.add("show");setTimeout(()=>d.classList.remove("show"),1100);}catch(e){}},600);}
 
-/* ---- eventos ---- */
 document.getElementById("enter").onclick=async()=>{
   const n=document.getElementById("iName").value.trim(),m=document.getElementById("iMail").value.trim();
   const okN=n.split(/\s+/).length>=2&&n.length>=3,okM=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m);
@@ -458,15 +561,14 @@ document.getElementById("enter").onclick=async()=>{
     S.jid=await DB.registrar(n,m);S.player=n;S.mail=m;
     localStorage.setItem("gcp_me",JSON.stringify({jid:S.jid,player:n,mail:m}));
     const pr=await DB.getPreds(S.jid);if(pr){S.preds=pr.preds||{};S.bp=Object.assign({q:[],s:[],f:[],champ:"",gol:""},pr.bp||{});}
-    REAL=await DB.getResultados();
-    showApp();
-  }catch(e){alert("No pude entrar: "+(e.message||e)+"\n¿Configuraste Supabase y corriste el SQL?");}
+    REAL=await DB.getResultados();showApp();
+  }catch(e){alert("No pude entrar. ¿Configuraste Supabase y corriste el SQL?\n\n"+( e.message||e));}
   btn.disabled=false;btn.textContent="Empezar mi prode →";
 };
 document.getElementById("logout").onclick=()=>{localStorage.removeItem("gcp_me");location.reload();};
-document.getElementById("trBtn").onclick=()=>alert("📝 La trivia suma puntos bonus (8-10 preguntas del Mundial). Se activa en la versión completa.");
+document.getElementById("trBtn").onclick=()=>alert("📝 La trivia activa suma puntos bonus. Próximamente.");
 document.body.addEventListener("input",e=>{const t=e.target;
-  if(t.dataset.st&&t.dataset.s){const i=+t.dataset.i,st=t.dataset.st,tgt=(st==="real")?REAL.reals:S.preds;
+  if(t.dataset.st&&t.dataset.s){const i=+t.dataset.i,st=t.dataset.st,tgt=st==="real"?REAL.reals:S.preds;
     tgt[i]=tgt[i]||{l:"",v:""};let v=t.value;if(v!=="")v=String(Math.max(0,Math.min(99,parseInt(v)||0)));tgt[i][t.dataset.s]=v;
     if(st!=="real"){refresh();savePreds();}}
   else if(t.dataset.bp){const[k,idx]=t.dataset.bp.split(":");if(k==="champ")S.bp.champ=t.value;else if(k==="gol")S.bp.gol=t.value;else{S.bp[k]=S.bp[k]||[];S.bp[k][+idx]=t.value;}savePreds();}
@@ -477,30 +579,29 @@ document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{
   document.querySelectorAll("#app section").forEach(x=>x.classList.remove("on"));
   b.classList.add("on");document.getElementById(b.dataset.t).classList.add("on");
   if(b.dataset.t==="rank")renderRank();
-  const sbar=document.querySelector('.scorebar');window.scrollTo({top:sbar?sbar.offsetTop-60:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:"smooth"});
 }));
-// admin
 document.getElementById("goAdmin").onclick=()=>{document.getElementById("admTab").style.display="";document.getElementById("admTab").click();};
 document.getElementById("aLogin").onclick=async()=>{
   const em=document.getElementById("aMail").value.trim(),pw=document.getElementById("aPass").value;
   const err=document.getElementById("aErr");err.textContent="";
-  if(!sb){if(em.toLowerCase()===CONFIG.ADMIN_EMAIL.toLowerCase()){openAdmin();}else{err.textContent="(Modo demo) usá el ADMIN_EMAIL del config.";}return;}
+  if(!sb){if(em.toLowerCase()===CONFIG.ADMIN_EMAIL.toLowerCase()){openAdmin();}else{err.textContent="(Demo) usá el ADMIN_EMAIL del config.";}return;}
   try{const{data,error}=await sb.auth.signInWithPassword({email:em,password:pw});if(error)throw error;
-    if(data.user&&data.user.email.toLowerCase()===CONFIG.ADMIN_EMAIL.toLowerCase()){openAdmin();}else{err.textContent="Ese usuario no es el admin configurado.";}
-  }catch(e){err.textContent=e.message||"No se pudo iniciar sesión.";}
+    if(data.user&&data.user.email.toLowerCase()===CONFIG.ADMIN_EMAIL.toLowerCase())openAdmin();
+    else err.textContent="Ese usuario no es el admin configurado.";
+  }catch(e){err.textContent=e.message||"Error al iniciar sesión.";}
 };
 function openAdmin(){
-  isAdmin=true;document.getElementById("admLogin").style.display="none";document.getElementById("admPanel").style.display="block";
+  document.getElementById("admLogin").style.display="none";document.getElementById("admPanel").style.display="block";
   renderGroups("admGroups","real");renderElim("admElim","real");
 }
-document.getElementById("aOut").onclick=async()=>{if(sb)await sb.auth.signOut();isAdmin=false;document.getElementById("admLogin").style.display="block";document.getElementById("admPanel").style.display="none";};
+document.getElementById("aOut").onclick=async()=>{if(sb)await sb.auth.signOut();document.getElementById("admLogin").style.display="block";document.getElementById("admPanel").style.display="none";};
 document.getElementById("aSave").onclick=async()=>{
   const btn=document.getElementById("aSave");btn.disabled=true;btn.textContent="Guardando…";
-  try{await DB.saveResultados(REAL.reals,REAL.br);alert("Resultados guardados ✅ El ranking de todos se actualiza.");}
-  catch(e){alert("Error al guardar: "+(e.message||e));}
+  try{await DB.saveResultados(REAL.reals,REAL.br);alert("Resultados guardados ✅");}
+  catch(e){alert("Error: "+(e.message||e));}
   btn.disabled=false;btn.textContent="💾 Guardar resultados";
 };
-
 function showApp(){
   document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";
   document.getElementById("hi").textContent=(S.player||"jugador").split(/\s+/)[0];
